@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -341,16 +340,16 @@
 </head>
 <body>
 
-    <!-- Floating Music Button -->
-    <div id="music-control" class="music-fab playing" title="Click to Toggle Music">
-        <i class="fa-solid fa-compact-disc"></i> <!-- Starts as compact-disc (playing) -->
+    <!-- Floating Music Button: Starts in a PAUSED state (Music Note icon, no spin) -->
+    <div id="music-control" class="music-fab" title="Click to Play Music">
+        <i class="fa-solid fa-music"></i> 
     </div>
-    <div id="music-tooltip" class="music-tooltip">Playing Background Music</div>
+    <div id="music-tooltip" class="music-tooltip">Music Paused</div>
 
     <header>
         <div class="container header-container">
             <div class="header-logo">
-                <a href="https://ibb.co.com/b5cvgDFj"><img src="https://i.ibb.co/b5cvgDFj/images.jpg" alt="School Logo" border="0"></a>
+                <a href="https://ibb.co.com/b5cvgDFj"><img src="https://i.ibb.co.com/b5cvgDFj/images.jpg" alt="School Logo" border="0"></a>
             </div>
             <div class="header-title">
                 <h1>SYLHET GOVERNMENT PILOT HIGH SCHOOL</h1>
@@ -528,7 +527,7 @@
         });
     </script>
     
-    <!-- Music Player Script with Local Files and Autoplay -->
+    <!-- Music Player Script: Starts Paused, Plays on Click -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const musicBtn = document.getElementById('music-control');
@@ -542,24 +541,23 @@
             ];
 
             let currentTrackIndex = 0;
-            let isPlaying = true; // Start as true for immediate play attempt
+            let isPlaying = false; // Starts as PAUSED (by user request)
             const audio = new Audio(playlist[currentTrackIndex]);
             
-            // Set initial state to playing (disc spinning)
-            musicBtn.classList.add('playing');
-            icon.classList.remove('fa-music');
-            icon.classList.add('fa-compact-disc');
-            tooltip.textContent = "Playing Background Music";
-
-            // Load next track when one finishes
+            // Audio events for seamless looping
             audio.addEventListener('ended', function() {
+                // Play next track in the playlist
                 currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
                 audio.src = playlist[currentTrackIndex];
-                if(isPlaying) audio.play();
+                // Only attempt to play if the user has not explicitly paused it
+                if(isPlaying) { 
+                    audio.play().catch(e => console.error("Error playing next track:", e));
+                }
             });
 
             function toggleMusic() {
                 if (isPlaying) {
+                    // Action: Pause
                     audio.pause();
                     isPlaying = false;
                     musicBtn.classList.remove('playing');
@@ -567,7 +565,8 @@
                     icon.classList.add('fa-music');
                     tooltip.textContent = "Music Paused";
                 } else {
-                    // Promise handling for play() to respect browser autoplay policies
+                    // Action: Play
+                    // Promise handling for play() to ensure it starts after click
                     const playPromise = audio.play();
                     
                     if (playPromise !== undefined) {
@@ -579,12 +578,8 @@
                             tooltip.textContent = "Playing Background Music";
                         })
                         .catch(error => {
-                            console.error("Playback prevented:", error);
-                            tooltip.textContent = "Click again to start music";
-                            isPlaying = false; // If blocked, reset state
-                            musicBtn.classList.remove('playing');
-                            icon.classList.remove('fa-compact-disc');
-                            icon.classList.add('fa-music');
+                            console.error("Playback failed on user click (should not happen):", error);
+                            tooltip.textContent = "Error: Cannot Play Music";
                         });
                     }
                 }
@@ -594,20 +589,6 @@
                 setTimeout(() => {
                     tooltip.style.display = 'none';
                 }, 2000);
-            }
-
-            // Attempt Autoplay immediately on load
-            const initialPlayAttempt = audio.play();
-            if (initialPlayAttempt !== undefined) {
-                initialPlayAttempt.catch(error => {
-                    console.warn("Autoplay was blocked by browser. Music button is ready for user interaction.");
-                    // If blocked, set state back to paused
-                    isPlaying = false;
-                    musicBtn.classList.remove('playing');
-                    icon.classList.remove('fa-compact-disc');
-                    icon.classList.add('fa-music');
-                    tooltip.textContent = "Click to Play Music";
-                });
             }
 
             // Add click event to the button
