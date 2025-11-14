@@ -320,7 +320,8 @@
         
         /* Animation for music playing (disk spinning) */
         .music-fab.playing i {
-            animation: spin 2s linear infinite;
+            /* Using the same 'spin' keyframes defined for virus-icon */
+            animation: spin 2s linear infinite; 
         }
         
         .music-tooltip {
@@ -534,28 +535,49 @@
             const icon = musicBtn.querySelector('i');
             const tooltip = document.getElementById('music-tooltip');
             
-            // Local files in the 'asset/' folder 
+            // --- FIXED: Using absolute URLs as requested by the user ---
             const playlist = [
-                "asset/Hungarian_Dance_No._1_-_Strolling_Strings_-_United_States_Air_Force_Band.mp3", 
-                "asset/Hungarian_Dance_No._4_-_Strolling_Strings_-_United_States_Air_Force_Band.mp3"
+                "https://upload.wikimedia.org/wikipedia/commons/2/23/Hungarian_Dance_No._1_-_Strolling_Strings_-_United_States_Air_Force_Band.mp3", 
+                "https://upload.wikimedia.org/wikipedia/commons/6/6a/Hungarian_Dance_No._4_-_Strolling_Strings_-_United_States_Air_Force_Band.mp3"
             ];
+            // -----------------------------------------------------------
 
             let currentTrackIndex = 0;
-            let isPlaying = false; // Starts as PAUSED (by user request)
+            let isPlaying = false; // Starts as PAUSED
+            // Initialize with the first track URL
             const audio = new Audio(playlist[currentTrackIndex]);
-            
-            // Audio events for seamless looping
+            audio.loop = false; // We'll handle looping through tracks manually
+
+            // Audio events for seamless looping (goes to next track)
             audio.addEventListener('ended', function() {
                 // Play next track in the playlist
                 currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
                 audio.src = playlist[currentTrackIndex];
+                audio.load(); // Explicitly load the new source
+                
                 // Only attempt to play if the user has not explicitly paused it
                 if(isPlaying) { 
-                    audio.play().catch(e => console.error("Error playing next track:", e));
+                    // Use a promise to handle browser autoplay policies
+                    const playPromise = audio.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(e => console.error("Error playing next track:", e));
+                    }
                 }
             });
+            
+            // Check if AudioContext is available and attempt to resume it on first user interaction
+            let audioCtx = null;
+            if (window.AudioContext || window.webkitAudioContext) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
 
             function toggleMusic() {
+                // Attempt to resume AudioContext on user action (important for sound)
+                if (audioCtx && audioCtx.state === 'suspended') {
+                    audioCtx.resume().catch(e => console.log("Failed to resume AudioContext:", e));
+                }
+                
                 if (isPlaying) {
                     // Action: Pause
                     audio.pause();
@@ -573,12 +595,14 @@
                         playPromise.then(_ => {
                             isPlaying = true;
                             musicBtn.classList.add('playing');
+                            // Use 'fa-compact-disc' for playing state for a nicer animation
                             icon.classList.remove('fa-music');
-                            icon.classList.add('fa-compact-disc');
+                            icon.classList.add('fa-compact-disc'); 
                             tooltip.textContent = "Playing Background Music";
                         })
                         .catch(error => {
-                            console.error("Playback failed on user click (should not happen):", error);
+                            // This catch block handles failed autoplay attempts (common on mobile)
+                            console.error("Playback failed on user click (due to error or policy):", error);
                             tooltip.textContent = "Error: Cannot Play Music";
                         });
                     }
