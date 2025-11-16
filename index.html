@@ -1,3 +1,5 @@
+<!--- START OF FILE index (7).html --- -->
+
 <!---- START OF FILE index (5)_final_with_hamburger_menu.html --->
 
 <!DOCTYPE html>
@@ -487,7 +489,7 @@
             transform: scale(1.05);
         }
 
-        /* --- Contact/Connect Section (styles unchanged) --- */
+        /* --- Connect Section (styles updated for message feedback) --- */
         .contact-form-container {
             background: #ffffff;
             padding: 40px;
@@ -545,16 +547,84 @@
         .contact-form-container button:hover {
             background-color: #006600;
         }
+        
+        #form-message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 700;
+            display: none; /* Initially hidden */
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
 
 
-        /* --- Footer (styles unchanged) --- */
+        /* --- Footer (styles updated for vine effect) --- */
         footer {
             background: #212529;
             color: #adb5bd;
             font-family: 'Inter', sans-serif;
             padding: 40px 20px;
             text-align: center;
+            position: relative; /* Needed for ::before */
+            overflow: hidden; /* Ensure overflow doesn't cause issues */
+            border-top: 5px solid #ffc107;
+            box-shadow: 0 -5px 15px rgba(255, 255, 255, 0.15); /* Add a subtle glow */
         }
+        
+        /* START NEW: Symbolic Growing White Vines Effect */
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Creating a subtle, animated line pattern that suggests growth/decoration */
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.1) 0,
+                rgba(255, 255, 255, 0.1) 10px,
+                transparent 10px,
+                transparent 20px
+            );
+            opacity: 0.5;
+            background-size: 300% 300%;
+            animation: vineGrow 15s linear infinite; /* Custom animation */
+            z-index: 1; /* Below content */
+            pointer-events: none; /* Do not block clicks */
+        }
+
+        @keyframes vineGrow {
+            0% {
+                background-position: 0% 0%;
+                transform: scaleY(0.1);
+            }
+            50% {
+                background-position: 100% 100%;
+                transform: scaleY(1.0);
+            }
+            100% {
+                background-position: 0% 0%;
+                transform: scaleY(0.1);
+            }
+        }
+        
+        .footer-content {
+            position: relative;
+            z-index: 2; /* Ensure content is above the effect */
+        }
+        /* END NEW: Symbolic Growing White Vines Effect */
+        
         .footer-content p {
             margin: 8px 0;
         }
@@ -661,8 +731,9 @@
         
         <div class="nav-menu" id="nav-menu">
             <ul>
-                <!-- MODIFICATION: Added Icons to Nav Links -->
+                <!-- MODIFICATION: Added Icons to Nav Links & New Link for Heritage -->
                 <li><a href="#welcome" class="nav-link active"><i class="fa-solid fa-house"></i>Home</a></li>
+                <li><a href="#heritage" class="nav-link"><i class="fa-solid fa-scroll"></i>History & Heritage</a></li> <!-- NEW TAB ADDED -->
                 <li><a href="#achievements" class="nav-link"><i class="fa-solid fa-trophy"></i>Achievements</a></li>
                 <li><a href="#corona" class="nav-link"><i class="fa-solid fa-virus-covid"></i>COVID Battle</a></li>
                 <li><a href="#talents" class="nav-link"><i class="fa-solid fa-brain"></i>Our Talents</a></li>
@@ -680,8 +751,7 @@
                 <h2>Welcome, Inheritors of a Grand Legacy!</h2>
                 <div class="content-box">
                     <h3>A Brotherhood Forged in History (Estd. 1836)</h3>
-                    <p>We are <strong>Batch-26</strong> of the revered Sylhet Government Pilot High School, a formidable and indivisible brotherhood of 288 brilliant minds, each one a universe of potential, now united in a singular, glorious purpose: to sculpt the future of our nation. Our institution, a veritable bastion of knowledge established in the historic year of 1836, stands not merely as a school, but as a silent, stoic witness to the very unfolding of our region's history. It has weathered the final decades of the British Raj, stood firm through the turbulent passions of the Partition, lent its intellectual might to the Language Movement, and offered its own sons as martyrs during the sacred Liberation War of 1971. For nearly two centuries, it has been a relentless engine of enlightenment, illuminating the path for countless leaders, scholars, visionaries, and innovators who have shaped the destiny of Bangladesh.</p>
-                    <p>We, the 288, do not walk these hallowed halls as mere students. We walk as the chosen torchbearers of this monumental, almost sacred, legacy. Every brick, every classroom, every blade of grass on the football field whispers tales of the giants who came before us. This history does not intimidate us; it fuels us. As we immerse ourselves in the rigorous curricula of Class X, we are preparing with an unyielding, almost monastic, resolve. Our goal is not simply to achieve success in the Secondary School Certificate (SSC) examination of <strong>2026</strong>, but to shatter all previous records, to create a new benchmark of excellence that will be spoken of in revered tones for decades to come. We carry the immense honor and the storied, weighty tradition of our institution not as a burden, but as a battle standard, held high for all the world to see.</p>
+                    <p>We are <strong>Batch-26</strong> of the revered Sylhet Government Pilot High School, a formidable and indivisible brotherhood of 288 brilliant minds, each one a universe of potential, now united in a singular, glorious purpose: to sculpt the future of our nation. Our institution, a veritable bastion of knowledge established in the historic year of 1836, stands not merely as a school, but as a silent, stoic witness to the very unfolding of our region's history. It has weathered the final decades of the British Raj, stood firm through the turbulent passions of the Partition, lent its intellectual might to the Language Movement, and offered its own sons as martyrs during the sacred Liberation War of 1971. For nearly two centuries, it has been a relentless engine of enlightenment, illuminating the path for countless leaders, scholars, visionaries, and innovators who have shaped the destiny of Bangladesh. Our story is the nation's story, intertwined in a tapestry of political shifts and intellectual revolutions. This history does not intimidate us; it fuels us. As we immerse ourselves in the rigorous curricula of Class X, we are preparing with an unyielding, almost monastic, resolve. Our goal is not simply to achieve success in the Secondary School Certificate (SSC) examination of <strong>2026</strong>, but to shatter all previous records, to create a new benchmark of excellence that will be spoken of in revered tones for decades to come. We carry the immense honor and the storied, weighty tradition of our institution not as a burden, but as a battle standard, held high for all the world to see.</p>
                     
                     <h3>The Digital Monument: Our Testament</h3>
                     <p>This digital monument is far more than a website; it is a living testament to our relentless, collective ambition. It is a detailed, unvarnished chronicle of the historic, world-altering challenges we have not just faced, but have decisively surmounted. It is a grand, vibrant, and ever-expanding showcase of the extraordinary universe of talents that defines the unique and powerful character of our brotherhood. We are bound by an unbreakable, unwritten code of conduct—a code that demands absolute academic supremacy, unwavering and unconditional unity, and a profound, active reverence for the heritage that has been entrusted to us. We are on a sacred mission. We will not just continue the legacy; we will amplify it, enrich it, and elevate it to glorious new heights never before witnessed. Our time is now. We are the architects of the next chapter.</p>
@@ -709,11 +779,35 @@
             </div>
         </section>
 
+        <!-- New Section: History & Heritage (EXPANDED) -->
+        <section id="heritage" class="content-section">
+            <div class="container">
+                <h2>A Story Etched in Stone: The Monumental Legacy of SGPHS</h2>
+                <p style="text-align: center; font-style: italic; margin-bottom: 50px; font-size: 0.88em; font-family: 'Lora', serif;">Understanding our heritage is the first step to becoming its worthy inheritor. Since its founding in 1836, our institution has shaped the intellectual and political landscape of the region with an unwavering commitment to excellence and national service.</p>
+
+                <div class="content-box">
+                    <h3>Chapter I: The Colonial Epoch & The Foundation (1836 - 1947)</h3>
+                    <p>Established during the height of the British Raj, Sylhet Government Pilot High School quickly became the premier educational center in the region, initially catering to the needs of the colonial administration but rapidly evolving into a breeding ground for local intellectual dissent and nationalistic fervor. Our alumni played pivotal, discreet roles in the anti-colonial movements and the later political maneuvers leading up to the Partition of India. Unlike many institutions that passively accepted the status quo, SGPHS fostered a spirit of critical inquiry and political consciousness, ensuring that generations of students understood the complex nature of nation-building long before Bangladesh was conceived. This early history instilled a permanent, deep-seated culture of proactive leadership and social responsibility among its students.</p>
+                </div>
+
+                <div class="content-box" style="border-left: 7px solid #e74c3c;">
+                    <h3>Chapter II: The Crucible of 1971: The Sacrifice for Freedom</h3>
+                    <p>The spirit of SGPHS reached its zenith during the Liberation War of 1971. The very land beneath our hallowed halls became a silent operational base for the underground movement. Students and teachers, driven by a fierce, uncompromising patriotism, left their classrooms and libraries to join the battlefields, transforming from scholars to warriors. Several students and distinguished alumni were martyred, their names forever inscribed in the nation's and the school’s deepest recesses of honor. The sacrifices made here directly contributed to the intellectual and martial strength of Sector 4, which operated in the Sylhet-Comilla region. We study this chapter with profound reverence, recognizing that our academic freedom was bought at the ultimate price. This history serves as a constant, non-negotiable reminder that true leadership requires courage, sacrifice, and an ultimate commitment to justice.</p>
+                </div>
+                
+                <div class="content-box" style="border-left: 7px solid #008000;">
+                    <h3>Chapter III: Defining the Modern Era & The Pilot's Code</h3>
+                    <p>In the post-independence landscape, SGPHS quickly pivoted to focus on nation-building, producing a continuous stream of leaders in every sector: bureaucracy, science, military, and the arts. Our alumni network holds influential positions across the globe, a testament to the comprehensive, world-class education provided here. The term 'Pilot' is more than just a name; it signifies a commitment to leading the way in innovation, integrity, and social impact. Our current initiatives, from advanced robotics clubs to large-scale community service projects, are direct modern extensions of this 189-year-old 'Pilot's Code.' Batch-26 is determined to bridge the gap between historical glory and future pre-eminence, ensuring that the legacy remains vibrant and globally competitive. We are the synthesis of our monumental past and the boundless potential of our future.</p>
+                </div>
+            </div>
+        </section>
+        <!-- End New Section: History & Heritage -->
+
         <!-- New Section: Achievements & Statistics -->
         <section id="achievements" class="content-section">
             <div class="container">
                 <h2>The Numbers Speak: Quantifying the Batch-26 Impact</h2>
-                <p style="text-align: center; font-style: italic; margin-bottom: 50px; font-size: 0.88em; font-family: 'Lora', serif;">Our excellence is not merely rhetoric; it is a measurable force. Behold the quantifiable markers of our collective commitment to supremacy and service, setting new precedents for the school.</p>
+                <p style="text-align: center; font-style: italic; margin-bottom: 50px; font-size: 0.88em; font-family: 'Lora', serif;">Our excellence is not merely rhetoric; it is a measurable force. Behold the quantifiable markers of our collective commitment to supremacy and service, setting new precedents for the school. From the rigorous academic environment to the electrifying sporting grounds, our dedication to total dominance is evident in every metric listed below. This data confirms our focused dedication to becoming the most successful batch in the school's illustrious history.</p>
                 
                 <div class="stats-grid">
                     <div class="stat-card">
@@ -780,7 +874,7 @@
         <section id="talents" class="content-section">
             <div class="container">
                 <h2>A Pantheon of Titans: The Multifaceted Genius of Batch-26</h2>
-                <p style="text-align: center; font-style: italic; margin-bottom: 40px; font-size: 0.88em; font-family: 'Lora', serif;">To be a member of Batch-26 is to be, by definition, exceptional. Our collective brilliance cannot be contained within the pages of textbooks; it explodes with supernova intensity in every conceivable arena of human endeavor.</p>
+                <p style="text-align: center; font-style: italic; margin-bottom: 40px; font-size: 0.88em; font-family: 'Lora', serif;">To be a member of Batch-26 is to be, by definition, exceptional. Our collective brilliance cannot be contained within the pages of textbooks; it explodes with supernova intensity in every conceivable arena of human endeavor. The breadth and depth of our abilities confirm the school's legacy as a breeding ground for holistic, world-class genius.</p>
                 
                 <div class="talents-grid">
                     <div class="talent-card-expanded">
@@ -824,7 +918,7 @@
                     </div>
                     <div class="legend-card">
                         <i class="fa-solid fa-calculator" style="font-size: 2em; color: #004d99;"></i>
-                        <!-- CORRECTION: Name corrected to Shawon Ahmed Mafi -->
+                        <!-- Name: Shawon Ahmed Mafi -->
                         <h4>Shawon Ahmed Mafi</h4>
                         <p class="specialty">Very Skilled Mathematician</p>
                         <p class="quote">"Mathematics is the alphabet with which God has written the universe."</p>
@@ -849,6 +943,12 @@
                         <h4>Nishat Islam</h4>
                         <p class="specialty">Inter-School Art Champion & Filmmaker</p>
                         <p class="quote">"The history we inherit is the story we must learn to beautifully tell."</p>
+                    </div>
+                    <div class="legend-card">
+                        <i class="fa-solid fa-paintbrush" style="font-size: 2em; color: #ff007f;"></i> <!-- NEW STUDENT ADDED -->
+                        <h4>MD. Ahteshamul Haque Nisath</h4>
+                        <p class="specialty">Divisional Art Competition Champion</p>
+                        <p class="quote">"Art is not what you see, but what you make others see and feel."</p>
                     </div>
                     <div class="legend-card">
                         <i class="fa-solid fa-microphone-lines" style="font-size: 2em; color: #6A5ACD;"></i>
@@ -973,7 +1073,7 @@
         <section id="gallery" class="content-section gallery-section">
             <div class="container">
                 <h2>The Visual Chronicle: Moments Forged in Unity</h2>
-                <p style="text-align: center; font-style: italic; margin-bottom: 50px; font-size: 0.88em; font-family: 'Lora', serif;">A picture is a silent testament to a thousand shared victories. Browse the visual record of our monumental journey, from the classroom to the championship arena.</p>
+                <p style="text-align: center; font-style: italic; margin-bottom: 50px; font-size: 0.88em; font-family: 'Lora', serif;">A picture is a silent testament to a thousand shared victories. Browse the visual record of our monumental journey, from the classroom to the championship arena. These images capture the essence of our brotherhood: the collaborative spirit of the classroom, the ferocity of the sports field, and the joy of shared experiences that define our unbreakable bond.</p>
 
                 <div class="gallery-grid">
                     
@@ -1001,15 +1101,16 @@
             </div>
         </section>
 
-        <!-- New Section: Connect/Contact Form -->
+        <!-- New Section: Connect/Contact Form (UPDATED for mailto) -->
         <section id="connect" class="content-section">
             <div class="container">
                 <h2>Connect with the Architects of the Future</h2>
-                <p style="text-align: center; font-style: italic; margin-bottom: 50px; font-size: 0.88em; font-family: 'Lora', serif;">For media inquiries, collaboration proposals, or to send a message to the Batch-26 representatives, please use the form below. We are ready to build the next chapter.</p>
+                <p style="text-align: center; font-style: italic; margin-bottom: 50px; font-size: 0.88em; font-family: 'Lora', serif;">For media inquiries, collaboration proposals, or to send a message to the Batch-26 representatives, please use the form below. We are ready to build the next chapter and forge powerful partnerships for our future.</p>
 
                 <div class="contact-form-container">
                     <h3>Send a Direct Message to the Batch Leadership</h3>
-                    <form action="#" method="POST"> <!-- Placeholder action - requires server-side script for actual submission -->
+                    <!-- ACTION is now controlled by JavaScript to build the mailto link -->
+                    <form id="contact-form" action="mailto:arkadas6989hc@gmail.com" method="POST"> 
                         <div>
                             <label for="name">Your Name / Organization Name</label>
                             <input type="text" id="name" name="name" required placeholder="Enter your full name or organization">
@@ -1028,6 +1129,7 @@
                         </div>
                         <button type="submit">Send Message to Batch-26</button>
                     </form>
+                    <div id="form-message"></div>
                 </div>
             </div>
         </section>
@@ -1054,6 +1156,11 @@
             const contentSections = document.querySelectorAll('.content-section');
             const navToggle = document.getElementById('nav-toggle');
             const navMenu = document.getElementById('nav-menu');
+            const contactForm = document.getElementById('contact-form');
+            const formMessage = document.getElementById('form-message');
+            
+            // ADDED: The new 'heritage' section to valid navigation targets
+            const validSections = ['welcome', 'heritage', 'achievements', 'corona', 'talents', 'gallery', 'connect'];
 
             // Function to handle showing/hiding content sections
             const handleNav = (targetId) => {
@@ -1096,12 +1203,53 @@
 
 
             // Initial load check
-            const validSections = ['welcome', 'achievements', 'corona', 'talents', 'gallery', 'connect'];
+            
             let initialTarget = window.location.hash.substring(1);
             if (!validSections.includes(initialTarget)) {
                 initialTarget = 'welcome';
             }
             handleNav(initialTarget);
+            
+            
+            // START NEW: Form Submission Handling for mailto link (without server)
+            contactForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Stop the form's default submission
+                
+                formMessage.style.display = 'none'; // Hide any previous message
+                formMessage.classList.remove('success', 'error');
+
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const subject = document.getElementById('subject').value;
+                const message = document.getElementById('message').value;
+                
+                // Build the body content for the email
+                const emailBody = `From: ${name}\nContact Email: ${email}\n\nMessage:\n${message}`;
+
+                // Construct the mailto URL. encodeURIComponent is crucial for spaces and special characters.
+                const mailtoLink = `mailto:arkadas6989hc@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+
+                // Attempt to open the user's mail application
+                window.location.href = mailtoLink;
+                
+                // Display the "successfully sent" message immediately after triggering the mailto link
+                // NOTE: This does NOT confirm the user pressed "Send" in their mail app. It only confirms the mail app launched.
+                formMessage.textContent = 'Success! Your email application is opening. Please press "Send" there to complete the delivery.';
+                formMessage.classList.add('success');
+                formMessage.style.display = 'block';
+                
+                // Wait briefly and clear the message to prompt user to reset the form manually or navigate
+                setTimeout(() => {
+                    // Re-hide the message after a delay
+                    formMessage.style.display = 'none';
+                    // Optionally clear the form:
+                    contactForm.reset(); 
+                }, 4000); 
+
+                // Scroll to the message to ensure visibility
+                formMessage.scrollIntoView({ behavior: 'smooth' });
+            });
+            // END NEW: Form Submission Handling
         });
     </script>
     
