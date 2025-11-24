@@ -1,3 +1,7 @@
+<!---- START OF FILE index.html ---->
+
+<!--- START OF FILE index (12).html --->
+
 <!--- START OF FILE index (7).html --- -->
 
 <!---- START OF FILE index (5)_final_with_hamburger_menu.html --->
@@ -285,32 +289,49 @@
             transform: translateY(-2px);
         }
         
-        /* NEW: Volume Bar with Gradient Flow Animation */
+        /* NEW: Volume Bar with Gradient Flow Animation (FIXED ALIGNMENT) */
         .volume-bar-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            /* Removed flex and gap to use absolute positioning for overlap */
             position: relative; 
             height: 40px; 
             margin-top: 10px;
         }
         
+        /* FIX: Absolute position icons to the edges for track boundaries */
         .volume-bar-container i {
             color: #004d99;
             font-size: 1.2em;
             z-index: 5;
+            position: absolute; /* Take icons out of flow */
+            top: 50%;
+            transform: translateY(-50%);
         }
 
+        .volume-bar-container i:first-child { /* Low volume icon */
+            left: 0;
+        }
+
+        .volume-bar-container i:last-child { /* High volume icon */
+            right: 0;
+        }
+
+        /* FIX: Absolute position slider to perfectly overlap the visual tracks */
         #volume-slider {
-            flex-grow: 1;
+            /* Removed flex-grow: 1; */
+            position: absolute; /* NEW: Align with absolute tracks */
+            left: 30px;      /* Offset for icon + padding/space */
+            right: 30px;     /* Offset for icon + padding/space */
+            
             -webkit-appearance: none;
             appearance: none;
             height: 10px; 
             border-radius: 5px;
             background: transparent;
-            z-index: 3; 
+            z-index: 4; /* Must be on top of the visual track */
             cursor: pointer;
             margin: 0;
+            top: 50%; /* Center vertically with the track */
+            transform: translateY(-50%);
         }
 
         /* Style the thumb (handle) */
@@ -342,17 +363,18 @@
         /* The custom fill track (animation applied here) */
         .volume-track-fill {
             position: absolute;
-            /* Approximate start/end points of the track area relative to the container */
             left: 30px; 
-            right: 30px; 
+            /* FIX: Removed right: 30px; so width: N% works correctly from the left boundary */
             height: 10px;
             border-radius: 5px;
             background: linear-gradient(90deg, #ff007f 0%, #004d99 33%, #ff007f 66%, #004d99 100%); /* New gradient for this bar */
             background-size: 300% 100%;
-            animation: gradientFlow 5s linear infinite; /* Reuse existing gradientFlow animation */
+            animation: gradientFlow 3s linear infinite; /* Reuse existing gradientFlow animation */
             z-index: 2; 
             width: 50%; /* Initial visual fill (will be updated by JS) */
             transform-origin: left;
+            top: 50%;
+            transform: translateY(-50%);
         }
         
         /* Style the *unfilled* part of the track */
@@ -360,11 +382,13 @@
             content: '';
             position: absolute;
             left: 30px;
-            right: 30px;
+            right: 30px; /* This defines the total width of the background track area */
             height: 10px;
             border-radius: 5px;
             background-color: #ced4da; /* Light gray for the base track */
             z-index: 1;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
 
@@ -923,8 +947,8 @@
                 <div class="music-info-box">
                     <h4>Current Track: <span id="track-title"></span></h4>
                     <p id="track-info"></p>
-                    <p><strong>Wikipedia:</strong> <a id="wiki-link" href="#" target="_blank">View Article</a></p>
-                    <p class="attribution-text"><strong>Copyright:</strong> <span id="copyright-attr"></span></p>
+                    <p><strong>License Link:</strong> <a id="wiki-link" href="#" target="_blank">View Article</a></p>
+                    <p class="attribution-text"><strong>Attribution:</strong> <span id="copyright-attr"></span></p>
                 </div>
                 
                 <div class="music-controls-container">
@@ -1003,7 +1027,6 @@
                 </div>
             </div>
         </section>
-        <!-- End New Section: History & Heritage -->
 
         <!-- New Section: Achievements & Statistics -->
         <section id="achievements" class="content-section">
@@ -1518,28 +1541,28 @@
             const wikiLinkA = document.getElementById('wiki-link');
             const copyrightAttrSpan = document.getElementById('copyright-attr');
 
-            // MODIFIED: Enriched Playlist with Metadata
+            // MODIFIED: Enriched Playlist with accurate Attribution and Licensing
             const playlist = [
                 {
                     src: "https://upload.wikimedia.org/wikipedia/commons/2/23/Hungarian_Dance_No._1_-_Strolling_Strings_-_United_States_Air_Force_Band.mp3",
                     title: "Hungarian Dance No. 1",
                     info: "By Johannes Brahms, performed by the Strolling Strings of the United States Air Force Band.",
-                    wiki: "https://en.wikipedia.org/wiki/Hungarian_Dances_(Brahms)",
-                    attribution: "Public Domain / United States Air Force Band"
+                    wiki: "https://en.wikipedia.org/wiki/Hungarian_Dances_(Brahms)", // Wikipedia link for composition context
+                    attribution: "Public Domain (Composition by Brahms, Recording by U.S. Air Force Band). Source: Wikimedia Commons" // Detailed attribution
                 },
                 {
                     src: "https://upload.wikimedia.org/wikipedia/commons/6/6a/Hungarian_Dance_No._4_-_Strolling_Strings_-_United_States_Air_Force_Band.mp3",
                     title: "Hungarian Dance No. 4",
                     info: "By Johannes Brahms, performed by the Strolling Strings of the United States Air Force Band.",
-                    wiki: "https://en.wikipedia.org/wiki/Hungarian_Dances_(Brahms)",
-                    attribution: "Public Domain / United States Air Force Band"
+                    wiki: "https://en.wikipedia.org/wiki/Hungarian_Dances_(Brahms)", // Wikipedia link for composition context
+                    attribution: "Public Domain (Composition by Brahms, Recording by U.S. Air Force Band). Source: Wikimedia Commons" // Detailed attribution
                 },
                 {
                     src: "https://upload.wikimedia.org/wikipedia/commons/1/13/Dance_of_the_Sugar_Plum_Fairies_%28ISRC_USUAN1100270%29.mp3",
                     title: "Dance of the Sugar Plum Fairies",
-                    info: "From The Nutcracker by Pyotr Ilyich Tchaikovsky, performed by the US Marine Band.",
-                    wiki: "https://en.wikipedia.org/wiki/Dance_of_the_Sugar_Plum_Fairy",
-                    attribution: "Public Domain / United States Marine Band"
+                    info: "From The Nutcracker by P.I. Tchaikovsky, arrangement and performance by Kevin MacLeod.",
+                    wiki: "https://creativecommons.org/licenses/by/3.0/", // Direct license link
+                    attribution: "By Kevin MacLeod (incompetech.com). Licensed under Creative Commons Attribution 3.0 Unported." // Required CC attribution 
                 }
             ];
 
@@ -1555,7 +1578,7 @@
                 trackTitleSpan.textContent = track.title;
                 trackInfoP.textContent = track.info;
                 wikiLinkA.href = track.wiki;
-                wikiLinkA.textContent = `View Article for ${track.title}`;
+                wikiLinkA.textContent = track.wiki.includes('creativecommons.org') ? 'View License Details' : `View Article for ${track.title}`;
                 copyrightAttrSpan.textContent = track.attribution;
             }
             
@@ -1571,7 +1594,7 @@
                     volumeTrackFill.style.animation = 'none';
                     volumeTrackFill.style.background = '#e74c3c'; // Red for mute
                 } else {
-                    volumeTrackFill.style.animation = 'gradientFlow 5s linear infinite';
+                    volumeTrackFill.style.animation = 'gradientFlow 3s linear infinite';
                     // Reset to initial gradient (from CSS)
                     volumeTrackFill.style.background = 'linear-gradient(90deg, #ff007f 0%, #004d99 33%, #ff007f 66%, #004d99 100%)';
                 }
